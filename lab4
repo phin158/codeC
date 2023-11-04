@@ -1,0 +1,265 @@
+#include<stdio.h>
+struct Node{
+	float heSo;
+	int soMu;
+	Node *pNext;	
+};
+struct List{
+	Node *pHead,*pTail;
+};
+void Init(List &l)
+{
+	l.pHead=l.pTail=NULL;
+}
+Node *getNode(float heSo,int soMu)
+{
+	Node *p=new Node;
+	if(p==NULL)	return NULL;
+	p->heSo=heSo;
+	p->soMu=soMu;
+	p->pNext=NULL;
+	return p;
+}
+void AddLast(List &l,Node *p)
+{
+	if(l.pHead==NULL)
+		l.pHead=l.pTail=p;
+	else
+		{
+			l.pTail->pNext=p;
+			l.pTail=p;	
+		}	
+}
+void InsertLast(List &l,float heso,int somu)
+{
+	Node *p;
+	p=getNode(heso,somu);
+	if(p==NULL)	return;
+		AddLast(l,p);
+}
+void NhapDaThuc(List &l)
+{
+	float heso;
+	int somu;
+	printf("\nBat dau nhap da thuc (nhap he so 0 de ket thuc): \n"); 
+	do{
+		printf("\nNhap he so: ");	scanf("%f",&heso);
+		if(heso==0)	break;
+		printf("\nNhap so mu: ");	scanf("%d",&somu);
+		InsertLast(l,heso,somu);
+	}while(heso!=0);
+}
+void XuatDaThuc(List l)
+{
+	Node *p=l.pHead;
+	while(p!=NULL)
+	{
+	//dieu kien khi nhap don thuc dau	
+	if(p==l.pHead)
+	{
+		if(p->heSo==1 )
+			{
+			if(p->soMu!=0 && p->soMu!=1){
+				printf("x^%d",p->soMu);
+				p=p->pNext;	}
+			else{
+				if(p->soMu==0)
+					p=p->pNext;	
+				else
+					{	
+					p=p->pNext;	
+					}
+				}	
+			}
+		else{
+			if(p->heSo==-1)
+			{
+			if(p->soMu!=0 && p->soMu!=1){
+				printf("-x^%d",p->soMu);
+				p=p->pNext;	}
+			else{
+				if(p->soMu==0)
+					p=p->pNext;	
+			else
+				{
+				printf("-x");
+				p=p->pNext;	
+				}
+					}
+			}
+			else
+			{
+				printf("%.0f",p->heSo);
+				if(p->soMu!=0 && p->soMu!=1){
+					printf("x^%d",p->soMu);
+					p=p->pNext;	}
+				else{
+					if(p->soMu==0)
+						p=p->pNext;						
+					else
+						{
+						printf("x");
+						p=p->pNext;	
+						}
+					}
+			}
+		}	
+
+	}	
+	//dieu kien khi nhap cac don thuc sau
+	else 
+	{
+	if(p->heSo==1 )
+		{	
+		if(p->soMu!=0&& p->soMu!=1)
+		{
+			printf("+x^%d",p->soMu);
+			p=p->pNext;}
+		else{
+			if(p->soMu==0)
+				{
+				printf("%+.0f",p->heSo);
+				p=p->pNext;	}
+			else
+				{	
+				printf("x");
+				p=p->pNext;	
+				}
+			}
+		}
+	else{
+		if(p->heSo==-1 )
+			{
+			if(p->soMu!=0&& p->soMu!=1)
+			{
+				printf("-x^%d",p->soMu);
+				p=p->pNext;}
+			else
+			{
+				if(p->soMu==0){
+					printf("%-.0f",p->heSo);
+					p=p->pNext;			}
+				else{
+					printf("-x");
+					p=p->pNext;	
+				}
+			}
+		}		
+		else{
+			if(p->heSo>1 )
+				{	
+				printf("%+.0f",p->heSo);
+				if(p->soMu!=0&& p->soMu!=1)
+				{
+				printf("x^%d",p->soMu);
+				p=p->pNext;}
+				else
+				{if(p->soMu==0)
+					p=p->pNext;	
+				else
+					{
+						printf("x");
+						p=p->pNext;	
+						}	
+				}
+						
+				}	
+			else
+				{
+			printf("%.0f",p->heSo);
+			if(p->soMu!=0&& p->soMu!=1)
+				{printf("x^%d",p->soMu);
+				p=p->pNext;}
+			else
+				{if(p->soMu==0)
+					p=p->pNext;	
+				else
+					{
+					printf("x");
+					p=p->pNext;	
+					}	
+				}
+				}	
+			}
+		}
+	
+	}
+	
+	}
+}
+void swap1(int &a,int &b)
+{
+	int c=a;
+	a=b;
+	b=c;
+}
+void swap2(float &a,float &b)
+{
+	float c=a;
+	a=b;
+	b=c;
+
+}
+void InterchangeSort(List &l)
+{
+	Node*p=l.pHead;
+	while(p!=NULL&&p!=l.pTail){
+		Node*q=p->pNext;
+		while(q!=NULL){
+			if(p->soMu < q->soMu)
+			{
+				swap2(p->heSo,q->heSo);
+				swap1(p->soMu,q->soMu);
+			}
+		q=q->pNext;
+		}
+		p=p->pNext;	
+	}
+}
+void CongDaThuc(List d1,List d2,List &d3)
+{
+	Init(d3);
+	float tongheso;
+	Node *p=d1.pHead;
+	Node *q=d2.pHead;
+	while(p&&q){
+			if(p->soMu==q->soMu){
+				tongheso=p->heSo+q->heSo;
+				if(tongheso!=0)
+					InsertLast(d3,tongheso,p->soMu);
+			p=p->pNext;
+			q=q->pNext;		
+			}
+			else{
+				if(p->soMu>q->soMu){
+					InsertLast(d3,p->heSo,p->soMu);
+					p=p->pNext;
+				}
+				else{
+					InsertLast(d3,q->heSo,q->soMu);	
+					q=q->pNext;	
+				}	
+			}
+	}
+	while(q){
+		InsertLast(d3,q->heSo,q->soMu);
+		q=q->pNext;
+	}
+	while(p){
+		InsertLast(d3,p->heSo,p->soMu);
+		p=p->pNext;
+	}	
+}
+void TruDaThuc()
+int main()		
+{
+	List d1,d2,d3;
+	Init(d1);
+	Init(d2);
+	NhapDaThuc(d1);
+	InterchangeSort(d1);
+	NhapDaThuc(d2);
+	InterchangeSort(d2);
+	CongDaThuc(d1,d2,d3);
+	XuatDaThuc(d3);
+}
